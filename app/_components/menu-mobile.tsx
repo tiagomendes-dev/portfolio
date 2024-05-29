@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import {
   BackpackIcon,
   EnvelopeClosedIcon,
@@ -13,6 +17,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Separator } from "@/app/_components/ui/separator";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -21,6 +26,7 @@ import {
 } from "@/app/_components/ui/sheet";
 
 export default function MenuMobile() {
+  const [sheetOpen, setSheetOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,7 +38,7 @@ export default function MenuMobile() {
   };
 
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger>
         <HamburgerMenuIcon />
       </SheetTrigger>
@@ -46,14 +52,18 @@ export default function MenuMobile() {
                   className="flex w-full items-center gap-3"
                   key={headerLink.name}
                 >
-                  <Button
-                    variant={pathname === headerLink.path ? "outline" : "ghost"}
-                    className="flex w-full items-center justify-start text-base font-normal text-zinc-400"
-                    onClick={() => handleNavigation(headerLink.path)}
-                  >
-                    {headerLink.icon}
-                    <span className="ml-3">{headerLink.name}</span>
-                  </Button>
+                  <SheetClose asChild>
+                    <Button
+                      variant={
+                        pathname === headerLink.path ? "outline" : "ghost"
+                      }
+                      className="flex w-full items-center justify-start text-base font-normal text-zinc-400"
+                      onClick={() => handleNavigation(headerLink.path)}
+                    >
+                      {headerLink.icon}
+                      <span className="ml-3">{headerLink.name}</span>
+                    </Button>
+                  </SheetClose>
                 </li>
               ))}
             </ul>
